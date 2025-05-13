@@ -41,18 +41,28 @@
   };
 
   $.fn.mauGallery.listeners = function (options) {
+    console.log("🎯 mg-prev listener installé");
+  
     $(".gallery-item").on("click", function () {
       if (options.lightBox && $(this).prop("tagName") === "IMG") {
         $.fn.mauGallery.methods.openLightBox($(this), options.lightboxId);
-      } else {
-        return;
       }
     });
-
+  
     $(".gallery").on("click", ".nav-link", $.fn.mauGallery.methods.filterByTag);
-    $(".gallery").on("click", ".mg-prev", () => $.fn.mauGallery.methods.prevImage(options.lightboxId));
-    $(".gallery").on("click", ".mg-next", () => $.fn.mauGallery.methods.nextImage(options.lightboxId));
+  
+    // Flèches ajoutées dynamiquement donc on utilise document (délégation)
+    $(document).on("click", ".mg-prev", () => {
+      console.log("⬅️ Flèche PREV cliquée !");
+      $.fn.mauGallery.methods.prevImage(options.lightboxId);
+    });
+  
+    $(document).on("click", ".mg-next", () => {
+      console.log("➡️ Flèche NEXT cliquée !");
+      $.fn.mauGallery.methods.nextImage(options.lightboxId);
+    });
   };
+    
 
   $.fn.mauGallery.methods = {
     createRowWrapper(element) {
